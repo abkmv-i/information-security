@@ -1,6 +1,7 @@
 from сaesarCipher import CaesarCipher
 
 def main():
+
     # Чтение файла с открытым текстом
     input_file = 'files/input.txt'
     with open(input_file, 'r') as file:
