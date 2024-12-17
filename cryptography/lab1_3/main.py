@@ -4,10 +4,10 @@ from file_operations import FileHandler
 
 def main():
     # Инициализация ЛРС
-    lfsr1_init = 0x80  # Начальное состояние ЛРС1
-    lfsr2_init = 0x80  # Начальное состояние ЛРС2
-    feedback1 = [80, 9, 4, 2, 0]  # Полином обратной связи ЛРС1
-    feedback2 = [80, 5, 3, 2, 1, 0]  # Полином обратной связи ЛРС2
+    lfsr1_init = 0b10000000  # Начальное состояние ЛРС1
+    lfsr2_init = 0b10000000  # Начальное состояние ЛРС2
+    feedback1 = [1, 3, 5, 7, 9]
+    feedback2 = [0, 2, 4, 6, 8]
 
     # Создаем объект шифратора
     encryptor = Encryptor(lfsr1_init, lfsr2_init, feedback1, feedback2)

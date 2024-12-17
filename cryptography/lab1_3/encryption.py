@@ -10,7 +10,7 @@ class Encryptor:
 
     def lfsr(self, register, feedback_coeffs):
         """
-        Функция ЛРС (линейный регистр сдвига).
+        Функция ЛРС.
         Принимает регистр и полином обратной связи (коэффициенты).
         """
         feedback = 0
@@ -23,17 +23,26 @@ class Encryptor:
     def encrypt_decrypt(self, text):
         """
         Функция шифрования/дешифрования.
-        Она использует ЛРС для генерации ключа потока и применяет его к тексту.
+        Сначала сдвигаем ЛРС и генерируем новый бит гаммы,
+        затем применяем его к символу.
         """
         result_text = ''
         for char in text:
-            bit1 = self.lfsr1 & 1
-            bit2 = self.lfsr2 & 1
-            gamma = bit1 ^ (bit1 & bit2)
-            result_char = chr(ord(char) ^ gamma)
-            result_text += result_char
+            # Сдвигаем ЛРС перед вычислением гаммы
             self.lfsr1 = self.lfsr(self.lfsr1, self.feedback1)
             self.lfsr2 = self.lfsr(self.lfsr2, self.feedback2)
+
+            # Извлекаем биты для формирования гаммы
+            bit1 = self.lfsr1 & 1
+            bit2 = self.lfsr2 & 1
+
+            # Вычисляем гамму
+            gamma = bit1 ^ bit2
+
+            # Применяем XOR к символу с гаммой
+            result_char = chr(ord(char) ^ gamma)
+            result_text += result_char
+
         return result_text
 
     def reset(self, lfsr1_init, lfsr2_init):
